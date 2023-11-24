@@ -21,3 +21,15 @@
         {{ $posts->links() }}
     </div>
 </x-guest-layout>
+
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white p-4 text-center mt-8">
+    <div class="flex flex-col items-center space-y-2">
+        <p>Instagram par Florentin Muraille</p>
+        <a href="https://github.com/Florentin28" class="text-gray-500 hover:text-gray-300">
+            GitHub
+        </a>
+    </div>
+</footer>
+
