@@ -24,8 +24,9 @@ Route::get('/', function () {
 // Page d'accueil avec les posts
 Route::get('/home', [HomepageController::class, 'index'])->name('homepage');
 
-// Dashboard (accessible uniquement aux utilisateurs authentifiés)
+// Routes accessibles uniquement aux utilisateurs authentifiés
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -40,6 +41,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 });
 
-
+// Profil utilisateur
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
 
 require __DIR__.'/auth.php';

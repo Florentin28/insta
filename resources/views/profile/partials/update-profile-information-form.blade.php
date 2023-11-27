@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -22,6 +22,42 @@
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
+
+        <div>
+            <x-input-label for="bio" :value="__('Bio')" />
+            <x-textarea-input id="bio" name="bio" class="mt-1 block w-full" :value="old('bio', $user->bio)" />
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+        </div>
+
+        <div>
+            <x-input-label for="avatar" :value="__('Avatar')" />
+
+            <div class="mt-1 flex items-center">
+                <div class="flex-shrink-0 mr-4">
+                    @if ($user->avatar)
+                        <img src="{{ asset('storage/' . $user->avatar) }}" alt="Current Avatar" class="h-16 w-16 rounded-full">
+                        <div class="mt-2">
+                            <label for="remove_avatar" class="cursor-pointer text-sm text-red-500 hover:text-red-700">
+                                {{ __('Remove Avatar') }}
+                            </label>
+                            <input type="checkbox" id="remove_avatar" name="remove_avatar" class="ml-1">
+                        </div>
+                    @else
+                        <span class="inline-block h-16 w-16 bg-gray-300 rounded-full"></span>
+                    @endif
+                </div>
+
+                <x-file-input id="avatar" name="avatar" class="block" accept="image/*" />
+
+                <x-input-error class="ml-2" :messages="$errors->get('avatar')" />
+            </div>
+        </div>
+
+
+
+
+
+
 
         <div>
             <x-input-label for="email" :value="__('Email')" />

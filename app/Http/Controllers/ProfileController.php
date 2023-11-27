@@ -26,16 +26,33 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Mettez à jour les informations du profil
+        $userData = [
+            'name' => $request->input('name'),
+            'bio' => $request->filled('bio') ? $request->input('bio') : null,
+        ];
+
+        // Ajoutez l'avatar uniquement si un fichier a été téléchargé
+        if ($request->hasFile('avatar')) {
+            // Stockez le fichier dans le système de fichiers
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            // Mettez à jour le chemin de l'avatar dans les données utilisateur
+            $userData['avatar'] = $avatarPath;
+        } elseif ($request->filled('remove_avatar')) {
+            // Supprimez l'avatar si la case à cocher "remove_avatar" est cochée
+            $userData['avatar'] = null;
         }
 
-        $request->user()->save();
+        // Mettez à jour les données de l'utilisateur
+        $user->update($userData);
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
+
+
 
     /**
      * Delete the user's account.

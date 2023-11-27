@@ -5,4 +5,6 @@
         <a href="{{ route('register') }}" class="hover:text-gray-500">Créer un compte</a>
         <a href="{{ route('login') }}" class="hover:text-gray-500">Se connecter</a>
     </div>
+
+
 </x-guest-layout>
