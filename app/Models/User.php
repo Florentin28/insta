@@ -1,8 +1,9 @@
 <?php
 
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,7 +20,6 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'avatar', 'bio',
-
     ];
 
     /**
@@ -42,11 +42,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function Posts()
+    public function posts()
     {
         return $this->hasMany(Post::class);
     }
-
 
     public function following()
     {
@@ -60,7 +59,8 @@ class User extends Authenticatable
                     ->withTimestamps();
     }
 
-
-
-
+    public function followersCount()
+    {
+        return $this->followers()->count();
+    }
 }

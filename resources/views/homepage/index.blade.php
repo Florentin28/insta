@@ -1,7 +1,14 @@
 <x-guest-layout>
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="font-bold text-xl">Liste des posts</h1>
+        <!-- Barre de recherche -->
+        <form action="{{ route('search.posts') }}" method="GET" class="ml-auto">
+            @csrf
+            <input type="text" name="query" placeholder="Rechercher des posts..." class="border rounded-md p-2">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Rechercher</button>
+        </form>
+    </div>
 
-
-    <h1 class="font-bold text-xl mb-4">Liste des posts</h1>
     <ul class="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
         @foreach ($posts as $post)
             <li>

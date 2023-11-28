@@ -3,6 +3,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,8 @@ Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile
 Route::get('/home', [HomepageController::class, 'index'])->name('homepage');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
+Route::get('/search/posts', [SearchController::class, 'searchPosts'])->name('search.posts');
+
 
 
 // Routes accessibles uniquement aux utilisateurs authentifiés
