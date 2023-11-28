@@ -26,10 +26,17 @@
                 <div class="flex items-center space-x-4 justify-end">
                     <a class="font-bold hover:text-emerald-600 transition" href="/">Home</a>
 
+
+
                     <!-- Ajoutez le bouton "Modifier le profil" ici -->
                     @auth
                         <a class="font-bold hover:text-emerald-600 transition" href="{{ route('profile.edit') }}">Modifier le profil</a>
                     @endauth
+
+                    @auth
+                    <a class="font-bold hover:text-emerald-600 transition" href="{{ route('posts.create') }}">Ajouter un post</a>
+                    @endauth
+
                 </div>
             </nav>
 

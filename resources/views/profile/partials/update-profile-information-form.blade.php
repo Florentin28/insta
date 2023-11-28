@@ -36,12 +36,6 @@
                 <div class="flex-shrink-0 mr-4">
                     @if ($user->avatar)
                         <img src="{{ asset('storage/' . $user->avatar) }}" alt="Current Avatar" class="h-16 w-16 rounded-full">
-                        <div class="mt-2">
-                            <label for="remove_avatar" class="cursor-pointer text-sm text-red-500 hover:text-red-700">
-                                {{ __('Remove Avatar') }}
-                            </label>
-                            <input type="checkbox" id="remove_avatar" name="remove_avatar" class="ml-1">
-                        </div>
                     @else
                         <span class="inline-block h-16 w-16 bg-gray-300 rounded-full"></span>
                     @endif

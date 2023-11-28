@@ -17,6 +17,7 @@ return new class() extends Migration {
             $table->timestampTz('published_at')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+
         });
     }
 
