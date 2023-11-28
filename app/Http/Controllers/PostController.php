@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -35,25 +36,27 @@ class PostController extends Controller
 {
     // Validez les données du formulaire
     $request->validate([
-        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'img_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         'caption' => 'nullable|string|max:255',
-        'body' => 'required|string', // Ajoutez cette ligne pour valider le champ body
+        'body' => 'required|string',
     ]);
 
     // Enregistrez la publication dans la base de données
     $post = new Post();
     $post->user_id = Auth::id();
     $post->caption = $request->input('caption');
-    $post->body = $request->input('body'); // Ajoutez cette ligne pour enregistrer le champ body
+    $post->body = $request->input('body');
+    $post->published_at = Carbon::now();
 
-    // Enregistrez l'image dans le système de fichiers
-    $photoPath = $request->file('photo')->store('post-photos', 'public');
-    $post->photo = $photoPath;
+    // Enregistrez l'image dans le système de fichiers et enregistrez le chemin dans la base de données
+    $imgPath = $request->file('img_path')->store('images', 'public');
+    $post->img_path = $imgPath;
 
     $post->save();
 
     // Redirigez l'utilisateur vers la page de la publication ou une autre page de votre choix
     return redirect()->route('posts.show', $post->id)->with('status', 'Post created successfully');
 }
+
 
 }

@@ -21,9 +21,9 @@
                         </div>
 
                         <div>
-                            <x-input-label for="photo" :value="__('Photo')" />
-                            <x-file-input id="photo" name="photo" class="block" accept="image/*" />
-                            <x-input-error class="ml-2" :messages="$errors->get('photo')" />
+                            <x-input-label for="img_path" :value="__('Photo')" />
+                            <x-file-input id="img_path" name="img_path" class="block" accept="image/*" />
+                            <x-input-error class="ml-2" :messages="$errors->get('img_path')" />
                         </div>
 
 
