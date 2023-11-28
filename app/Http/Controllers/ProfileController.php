@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -51,8 +52,25 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    /**
+     * Follow another user.
+     */
+    public function follow(User $user): RedirectResponse
+    {
+        auth()->user()->following()->attach($user);
 
+        return back()->with('status', 'Vous suivez maintenant ' . $user->name);
+    }
 
+    /**
+     * Unfollow another user.
+     */
+    public function unfollow(User $user): RedirectResponse
+    {
+        auth()->user()->following()->detach($user);
+
+        return back()->with('status', 'Vous ne suivez plus ' . $user->name);
+    }
 
     /**
      * Delete the user's account.
@@ -74,4 +92,15 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function show(User $user)
+    {
+        return view('profile.profile_utilisateur', ['user' => $user]);
+    }
+
+
+
+
+
+
 }

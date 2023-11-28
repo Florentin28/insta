@@ -1,9 +1,8 @@
 <?php
-
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +21,10 @@ Route::get('/', function () {
 });
 
 // Page d'accueil avec les posts
+Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/home', [HomepageController::class, 'index'])->name('homepage');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
-
 
 
 // Routes accessibles uniquement aux utilisateurs authentifiés
@@ -35,11 +34,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // Profil
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Profil utilisateur
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/{user}/follow', [ProfileController::class, 'follow'])->name('profile.follow');
+    Route::post('/profile/{user}/unfollow', [ProfileController::class, 'unfollow'])->name('profile.unfollow');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 
     // Articles
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
@@ -47,11 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Profil utilisateur
-    Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
 });
-
 
 require __DIR__.'/auth.php';
