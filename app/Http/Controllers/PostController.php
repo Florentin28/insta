@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Like; // Assurez-vous d'inclure le modèle Like
 
 class PostController extends Controller
 {
@@ -26,6 +27,23 @@ class PostController extends Controller
             'post' => $post,
         ]);
     }
+    public function like(Post $post)
+    {
+        // Assurez-vous que l'utilisateur est authentifié avant de permettre le like
+        if (auth()->check()) {
+            // Vérifiez si l'utilisateur n'a pas déjà liké le post
+            if (!$post->likes()->where('user_id', auth()->user()->id)->exists()) {
+                // Créez un like pour ce post par cet utilisateur
+                $like = new Like();
+                $like->user_id = auth()->user()->id;
+
+                $post->likes()->save($like);
+            }
+        }
+
+        // Redirigez l'utilisateur vers la page du post
+        return redirect()->route('posts.show', $post);
+    }
 
     public function create()
     {
@@ -40,6 +58,8 @@ class PostController extends Controller
         'caption' => 'nullable|string|max:255',
         'body' => 'required|string',
     ]);
+
+
 
     // Enregistrez la publication dans la base de données
     $post = new Post();
@@ -57,6 +77,8 @@ class PostController extends Controller
     // Redirigez l'utilisateur vers la page de la publication ou une autre page de votre choix
     return redirect()->route('posts.show', $post->id)->with('status', 'Post created successfully');
 }
+
+
 
 
 }

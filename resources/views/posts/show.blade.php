@@ -31,4 +31,21 @@
 <a href="{{ route('profile.show', $post->user) }}" class="text-blue-500 hover:underline">Voir le profil</a>
         </div>
     @endif
+
+    <!-- Ajoutez ces lignes où vous souhaitez afficher les boutons de like et le nombre de likes -->
+<div>
+    {{-- Bouton pour liker le post --}}
+    @if(auth()->check())
+        <form action="{{ route('posts.like', $post) }}" method="POST">
+            @csrf
+            <button type="submit">Like</button>
+        </form>
+    @endif
+</div>
+
+<div>
+    {{-- Afficher le nombre de likes --}}
+    <p>{{ $post->likeCount() }} {{ Str::plural('like', $post->likeCount()) }}</p>
+</div>
+
 </x-guest-layout>

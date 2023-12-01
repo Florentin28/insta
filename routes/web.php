@@ -23,11 +23,21 @@ Route::get('/', function () {
 });
 
 // Page d'accueil avec les posts
+Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+
 Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/home', [HomepageController::class, 'index'])->name('homepage');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 Route::get('/search/posts', [SearchController::class, 'searchPosts'])->name('search.posts');
+Route::get('/search/users', [SearchController::class, 'searchUsers'])->name('search.users');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+
+
+
+
+
 
 
 
