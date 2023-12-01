@@ -27,6 +27,7 @@ Route::get('/', function () {
 
 // Page d'accueil avec les posts
 Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+Route::post('/posts/{post}/toggle-like', [PostController::class, 'toggleLike'])->name('posts.toggleLike');
 
 Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
 Route::delete('/posts/{post}/comments/{comment}', [PostController::class, 'destroyComment'])->name('comments.destroy');

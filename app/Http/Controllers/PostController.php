@@ -7,29 +7,42 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Like;
-use App\Models\Comment; // Assurez-vous d'inclure le modèle Comment
+use App\Models\Comment;
 use Illuminate\Http\RedirectResponse;
-
 
 class PostController extends Controller
 {
 
-    public function destroyComment(Post $post, Comment $comment)
+    public function toggleLike(Post $post)
 {
-    // Assurez-vous que l'utilisateur est autorisé à supprimer le commentaire
-    if (auth()->user()->id !== $comment->user_id) {
-        // Redirigez l'utilisateur avec un message d'erreur
-        return redirect()->route('posts.show', $post->id)->with('error', 'Vous n\'êtes pas autorisé à supprimer ce commentaire.');
+    if (auth()->check()) {
+        $user = auth()->user();
+
+        if ($post->likedBy($user)) {
+            $user->likes()->where('post_id', $post->id)->delete();
+        } else {
+            $like = new Like();
+            $like->user_id = $user->id;
+            $post->likes()->save($like);
+        }
     }
 
-    // Supprimez le commentaire
-    $comment->delete();
-
-    // Redirigez l'utilisateur vers la page du post
-    return redirect()->route('posts.show', $post)->with('status', 'Commentaire supprimé avec succès.');
+    return redirect()->route('posts.show', $post);
 }
+    public function destroyComment(Post $post, Comment $comment)
+    {
+        // Assurez-vous que l'utilisateur est autorisé à supprimer le commentaire
+        if (auth()->user()->id !== $comment->user_id) {
+            // Redirigez l'utilisateur avec un message d'erreur
+            return redirect()->route('posts.show', $post->id)->with('error', 'Vous n\'êtes pas autorisé à supprimer ce commentaire.');
+        }
 
+        // Supprimez le commentaire
+        $comment->delete();
 
+        // Redirigez l'utilisateur vers la page du post
+        return redirect()->route('posts.show', $post)->with('status', 'Commentaire supprimé avec succès.');
+    }
 
     public function index()
     {
@@ -49,18 +62,20 @@ class PostController extends Controller
         ]);
     }
 
-
-
     public function like(Post $post)
     {
         // Assurez-vous que l'utilisateur est authentifié avant de permettre le like
         if (auth()->check()) {
-            // Vérifiez si l'utilisateur n'a pas déjà liké le post
-            if (!$post->likes()->where('user_id', auth()->user()->id)->exists()) {
-                // Créez un like pour ce post par cet utilisateur
-                $like = new Like();
-                $like->user_id = auth()->user()->id;
+            $user = auth()->user();
 
+            // Vérifiez si l'utilisateur a déjà liké le post
+            if ($post->likedBy($user)) {
+                // Retirez le like
+                $user->likes()->where('post_id', $post->id)->delete();
+            } else {
+                // Ajoutez le like
+                $like = new Like();
+                $like->user_id = $user->id;
                 $post->likes()->save($like);
             }
         }
@@ -70,29 +85,25 @@ class PostController extends Controller
     }
 
     public function comment(Request $request, Post $post)
-{
-    // Validation du formulaire
-    $request->validate([
-        'body' => 'required|string',
-    ]);
-
-    // Vérifiez si l'utilisateur est authentifié
-    if (Auth::check()) {
-        // Création du commentaire associé au post
-        Comment::create([
-            'body' => $request->input('body'),
-            'user_id' => auth()->user()->id,
-            'post_id' => $post->id,
+    {
+        // Validation du formulaire
+        $request->validate([
+            'body' => 'required|string',
         ]);
+
+        // Vérifiez si l'utilisateur est authentifié
+        if (Auth::check()) {
+            // Création du commentaire associé au post
+            Comment::create([
+                'body' => $request->input('body'),
+                'user_id' => auth()->user()->id,
+                'post_id' => $post->id,
+            ]);
+        }
+
+        // Redirigez l'utilisateur vers la page du post
+        return redirect()->route('posts.show', $post);
     }
-
-
-
-    // Redirigez l'utilisateur vers la page du post
-    return redirect()->route('posts.show', $post);
-}
-
-
 
     public function create()
     {

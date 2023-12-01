@@ -68,11 +68,11 @@
 
     <!-- Affichez les boutons de like et le nombre de likes -->
     <div>
-        {{-- Bouton pour liker le post --}}
+        {{-- Bouton pour liker ou unliker le post --}}
         @if(auth()->check())
-            <form action="{{ route('posts.like', $post) }}" method="POST">
+            <form action="{{ route('posts.toggleLike', $post) }}" method="POST">
                 @csrf
-                <button type="submit">Like</button>
+                <button type="submit">{{ $post->likedBy(auth()->user()) ? 'Unlike' : 'Like' }}</button>
             </form>
         @endif
     </div>
