@@ -27,25 +27,58 @@
         </div>
 
         <div>
-{{-- Bouton pour afficher le profil --}}
-<a href="{{ route('profile.show', $post->user) }}" class="text-blue-500 hover:underline">Voir le profil</a>
+            {{-- Bouton pour afficher le profil --}}
+            <a href="{{ route('profile.show', $post->user) }}" class="text-blue-500 hover:underline">Voir le profil</a>
         </div>
     @endif
 
-    <!-- Ajoutez ces lignes où vous souhaitez afficher les boutons de like et le nombre de likes -->
-<div>
-    {{-- Bouton pour liker le post --}}
-    @if(auth()->check())
-        <form action="{{ route('posts.like', $post) }}" method="POST">
-            @csrf
-            <button type="submit">Like</button>
-        </form>
-    @endif
-</div>
+    <!-- Ajout du formulaire pour ajouter un commentaire -->
+    <div>
+        <h2>Ajouter un commentaire</h2>
+        @auth
+            <form action="{{ route('posts.comment', $post) }}" method="POST">
+                @csrf
+                <textarea name="body" rows="3" cols="30" placeholder="Votre commentaire"></textarea>
+                <button type="submit">Ajouter un commentaire</button>
+            </form>
+        @else
+            <p>Connectez-vous pour ajouter un commentaire.</p>
+        @endauth
+    </div>
 
-<div>
-    {{-- Afficher le nombre de likes --}}
-    <p>{{ $post->likeCount() }} {{ Str::plural('like', $post->likeCount()) }}</p>
-</div>
+    <!-- Afficher les commentaires existants -->
+    <div>
+        <h2>Commentaires</h2>
+        @forelse ($post->comments as $comment)
+            <div>
+                <p>{{ $comment->user->name }} : {{ $comment->body }}</p>
+                @if(auth()->check() && auth()->user()->id === $comment->user->id)
+                <form action="{{ route('comments.destroy', ['post' => $post, 'comment' => $comment]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Supprimer</button>
+                </form>
 
+                @endif
+            </div>
+        @empty
+            <p>Aucun commentaire pour le moment.</p>
+        @endforelse
+    </div>
+
+    <!-- Affichez les boutons de like et le nombre de likes -->
+    <div>
+        {{-- Bouton pour liker le post --}}
+        @if(auth()->check())
+            <form action="{{ route('posts.like', $post) }}" method="POST">
+                @csrf
+                <button type="submit">Like</button>
+            </form>
+        @endif
+    </div>
+
+    <div>
+        {{-- Afficher le nombre de likes --}}
+        <p>{{ $post->likeCount() }} {{ Str::plural('like', $post->likeCount()) }}</p>
+    </div>
 </x-guest-layout>

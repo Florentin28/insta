@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 
 
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +27,9 @@ Route::get('/', function () {
 
 // Page d'accueil avec les posts
 Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+
+Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
+Route::delete('/posts/{post}/comments/{comment}', [PostController::class, 'destroyComment'])->name('comments.destroy');
 
 Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/home', [HomepageController::class, 'index'])->name('homepage');
