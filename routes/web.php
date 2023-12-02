@@ -20,25 +20,14 @@ use App\Http\Controllers\SearchController;
 |
 */
 
+
 // Page d'accueil pour les utilisateurs non authentifiés
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/home', function () {
+return view('welcome');
 });
 
-// Page d'accueil avec les posts
-Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
-Route::post('/posts/{post}/toggle-like', [PostController::class, 'toggleLike'])->name('posts.toggleLike');
 
-Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
-Route::delete('/posts/{post}/comments/{comment}', [PostController::class, 'destroyComment'])->name('comments.destroy');
 
-Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
-Route::get('/home', [HomepageController::class, 'index'])->name('homepage');
-Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
-Route::get('/search/posts', [SearchController::class, 'searchPosts'])->name('search.posts');
-Route::get('/search/users', [SearchController::class, 'searchUsers'])->name('search.users');
-Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
 
@@ -49,7 +38,7 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
 // Routes accessibles uniquement aux utilisateurs authentifiés
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -64,6 +53,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Articles
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+    // Page d'accueil avec les posts
+Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+Route::post('/posts/{post}/toggle-like', [PostController::class, 'toggleLike'])->name('posts.toggleLike');
+
+Route::post('/posts/{post}/comment', [PostController::class, 'comment'])->name('posts.comment');
+Route::delete('/posts/{post}/comments/{comment}', [PostController::class, 'destroyComment'])->name('comments.destroy');
+
+Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/', [HomepageController::class, 'index'])->name('homepage');
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
+Route::get('/search/posts', [SearchController::class, 'searchPosts'])->name('search.posts');
+Route::get('/search/users', [SearchController::class, 'searchUsers'])->name('search.users');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+
 });
 
 // Profil utilisateur

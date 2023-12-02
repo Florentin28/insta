@@ -12,6 +12,7 @@ class Post extends Model
     protected $fillable = [
         'body', 'published_at', 'img_path', 'user_id', 'caption',
     ];
+    protected $casts= ["published_at"=>"datetime"];
 
     public function user()
     {

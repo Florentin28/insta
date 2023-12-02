@@ -8,7 +8,7 @@
         {{ Str::limit($post->body, 120) }}
     </div>
     <div class="text-xs text-gray-500">
-        {{ $post->published_at }}
+        {{ $post->published_at->diffForHumans() }}
     </div>
 </a></div>
 

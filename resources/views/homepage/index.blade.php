@@ -19,7 +19,7 @@
                     <div class="flex flex-col ml-4">
                         <h2 class="font-bold text-gray-800">{{ $post->title }}</h2>
                         <p class="text-gray-600">{{ Str::limit($post->body, 120) }}</p>
-                        <p class="text-xs text-gray-500">{{ $post->published_at }}</p>
+                        <p class="text-xs text-gray-500">{{ $post->published_at->diffForHumans() }}</p>
                         <p class="text-xs text-gray-500">Posté par : {{ $post->user->name }}</p>
 
                     </div>
@@ -28,9 +28,11 @@
         @endforeach
     </ul>
 
-    <div class="mt-8">
-        {{ $posts->links() }}
-    </div>
+        <div class="pagination">
+            {{ $posts->links() }}
+        </div>
+
+
 </x-guest-layout>
 
 

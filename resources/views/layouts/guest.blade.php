@@ -24,7 +24,7 @@
                     </a>
                 </div>
                 <div class="flex items-center space-x-4 justify-end">
-                    <a class="font-bold hover:text-emerald-600 transition" href="/">Home</a>
+                    <a class="font-bold hover:text-emerald-600 transition" href="/home">Home</a>
 
 
 
@@ -35,6 +35,10 @@
 
                     @auth
                     <a class="font-bold hover:text-emerald-600 transition" href="{{ route('posts.create') }}">Ajouter un post</a>
+                    @endauth
+
+                    @auth
+                    <a href="{{ route('profile.show', ["user"=>auth()->user()]) }}" class="text-blue-500 hover:underline">Voir le profil</a>
                     @endauth
 
                 </div>
