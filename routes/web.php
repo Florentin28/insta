@@ -56,20 +56,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     // Profil utilisateur
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/{user}/follow', [ProfileController::class, 'follow'])->name('profile.follow');
     Route::post('/profile/{user}/unfollow', [ProfileController::class, 'unfollow'])->name('profile.unfollow');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Articles
-    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 });
 
 // Profil utilisateur
 Route::middleware('auth')->group(function () {
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 

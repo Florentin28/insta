@@ -1,34 +1,37 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use App\Models\Like;
 use App\Models\Comment;
-use Illuminate\Http\RedirectResponse;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
 
     public function toggleLike(Post $post)
-{
-    if (auth()->check()) {
-        $user = auth()->user();
+    {
+        if (auth()->check()) {
+            $user = auth()->user();
 
-        if ($post->likedBy($user)) {
-            $user->likes()->where('post_id', $post->id)->delete();
-        } else {
-            $like = new Like();
-            $like->user_id = $user->id;
-            $post->likes()->save($like);
+            if ($post->likedBy($user)) {
+                $user->likes()->where('post_id', $post->id)->delete();
+            } else {
+                $like = new Like();
+                $like->user_id = $user->id;
+                $post->likes()->save($like);
+            }
         }
+
+        return redirect()->route('posts.show', $post);
     }
 
-    return redirect()->route('posts.show', $post);
-}
     public function destroyComment(Post $post, Comment $comment)
     {
         // Assurez-vous que l'utilisateur est autorisé à supprimer le commentaire
@@ -44,14 +47,7 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post)->with('status', 'Commentaire supprimé avec succès.');
     }
 
-    public function index()
-    {
-        $posts = Post::paginate(12);
 
-        return view('posts.index', [
-            'posts' => $posts,
-        ]);
-    }
 
     public function show($id)
     {
