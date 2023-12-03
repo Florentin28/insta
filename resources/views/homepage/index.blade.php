@@ -1,5 +1,4 @@
 <x-guest-layout>
-    <!-- Contenu de la page d'accueil pour les utilisateurs non connectés -->
     <div class="overflow-x-hidden bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 min-h-screen flex flex-col justify-center">
         <div class="flex justify-center w-screen mb-4">
             <div class="flex items-center justify-center mt-4">
