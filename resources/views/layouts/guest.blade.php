@@ -24,22 +24,22 @@
                     </a>
                 </div>
                 <div class="flex items-center space-x-4 justify-end">
-                    <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="/home">Home</a>
 
                     <!-- Bouton "Modifier le profil" -->
-                    @auth
-                        <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.edit') }}">Modifier le profil</a>
-                    @endauth
+@auth
+<a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.edit') }}">Modifier le profil</a>
+@endauth
 
-                    <!-- Bouton "Ajouter un post" -->
-                    @auth
-                    <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('posts.create') }}">Ajouter un post</a>
-                    @endauth
+<!-- Bouton "Ajouter un post" -->
+@auth
+<a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('posts.create') }}">Ajouter un post</a>
+@endauth
 
-                    <!-- Bouton "Voir le profil" -->
-                    @auth
-                        <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.show', ["user" => auth()->user()]) }}">Voir le profil</a>
-                    @endauth
+<!-- Bouton "Voir le profil" -->
+@auth
+<a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.show', ["user" => auth()->user()]) }}">Voir le profil</a>
+@endauth
+
                 </div>
             </nav>
 
