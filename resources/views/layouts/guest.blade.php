@@ -16,8 +16,10 @@
 <body class="font-sans text-gray-900 antialiased">
     <div class="overflow-x-hidden bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 min-h-screen flex flex-col pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
         <div class="container mx-auto flex flex-col space-y-10">
+            <!-- Navigation Bar -->
             <nav class="flex justify-between items-center py-2">
                 <div>
+                    <!-- Logo et Nom de l'Application -->
                     <a href="/" class="group font-bold text-3xl flex items-center space-x-4 hover:text-emerald-600 transition">
                         <x-application-logo class="w-10 h-10 fill-current text-gray-500 group-hover:text-emerald-500 transition" />
                         <span>Instagram</span>
@@ -26,23 +28,24 @@
                 <div class="flex items-center space-x-4 justify-end">
 
                     <!-- Bouton "Modifier le profil" -->
-@auth
-<a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.edit') }}">Modifier le profil</a>
-@endauth
+                    @auth
+                        <a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.edit') }}">Modifier le profil</a>
+                    @endauth
 
-<!-- Bouton "Ajouter un post" -->
-@auth
-<a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('posts.create') }}">Ajouter un post</a>
-@endauth
+                    <!-- Bouton "Ajouter un post" -->
+                    @auth
+                        <a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('posts.create') }}">Ajouter un post</a>
+                    @endauth
 
-<!-- Bouton "Voir le profil" -->
-@auth
-<a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.show', ["user" => auth()->user()]) }}">Voir le profil</a>
-@endauth
+                    <!-- Bouton "Voir le profil" -->
+                    @auth
+                        <a class="bg-purple-600 text-white px-4 py-2 rounded-md border-2 border-black transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.show', ["user" => auth()->user()]) }}">Voir le profil</a>
+                    @endauth
 
                 </div>
             </nav>
 
+            <!-- Main Content -->
             <main>
                 {{ $slot }}
             </main>

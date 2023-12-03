@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,13 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Les attributs qui peuvent être attribués de manière massive.
      *
      * @var array<int, string>
      */
@@ -25,7 +23,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Les attributs qui devraient être cachés lors de la sérialisation.
      *
      * @var array<int, string>
      */
@@ -35,7 +33,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Les attributs qui devraient être transformés.
      *
      * @var array<string, string>
      */
@@ -44,31 +42,35 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // Relation avec le modèle Post (Un utilisateur peut avoir plusieurs posts)
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
 
+    // Relation de suivi avec d'autres utilisateurs
     public function following()
     {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id')
                     ->withTimestamps();
     }
 
+    // Relation des followers de l'utilisateur
     public function followers()
     {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id')
                     ->withTimestamps();
     }
 
+    // Nombre total de followers pour l'utilisateur
     public function followersCount()
     {
         return $this->followers()->count();
     }
+
+    // Relation avec le modèle Like (Un utilisateur peut avoir plusieurs likes)
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
     }
-
-
 }

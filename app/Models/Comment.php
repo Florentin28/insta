@@ -12,7 +12,7 @@ class Comment extends Model
 
     protected $fillable = [
         'body',
-        'user_id', // Assurez-vous que 'user_id' est présent dans le tableau $fillable
+        'user_id',
         'post_id',    ];
 
     public function user()
