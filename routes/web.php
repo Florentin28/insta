@@ -36,13 +36,13 @@ return view('welcome');
 
 
 
-
 // Routes accessibles uniquement aux utilisateurs authentifiés
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 
     // Profil utilisateur
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -62,7 +62,6 @@ Route::delete('/posts/{post}/comments/{comment}', [PostController::class, 'destr
 
 Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/', [HomepageController::class, 'index'])->name('homepage');
-Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
 Route::get('/search/posts', [SearchController::class, 'searchPosts'])->name('search.posts');
 Route::get('/search/users', [SearchController::class, 'searchUsers'])->name('search.users');

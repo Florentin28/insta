@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="overflow-x-hidden bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 min-h-screen flex flex-col justify-center">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -31,6 +31,11 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <!-- Footer -->
+            <footer class="bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 py-4">
+                <!-- Ajoutez ici le contenu de votre pied de page si nécessaire -->
+            </footer>
         </div>
     </body>
 </html>

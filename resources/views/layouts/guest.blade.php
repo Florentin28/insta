@@ -14,7 +14,7 @@
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+    <div class="overflow-x-hidden bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 min-h-screen flex flex-col pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
         <div class="container mx-auto flex flex-col space-y-10">
             <nav class="flex justify-between items-center py-2">
                 <div>
@@ -24,23 +24,22 @@
                     </a>
                 </div>
                 <div class="flex items-center space-x-4 justify-end">
-                    <a class="font-bold hover:text-emerald-600 transition" href="/home">Home</a>
+                    <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="/home">Home</a>
 
-
-
-                    <!-- Ajoutez le bouton "Modifier le profil" ici -->
+                    <!-- Bouton "Modifier le profil" -->
                     @auth
-                        <a class="font-bold hover:text-emerald-600 transition" href="{{ route('profile.edit') }}">Modifier le profil</a>
+                        <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.edit') }}">Modifier le profil</a>
                     @endauth
 
+                    <!-- Bouton "Ajouter un post" -->
                     @auth
-                    <a class="font-bold hover:text-emerald-600 transition" href="{{ route('posts.create') }}">Ajouter un post</a>
+                    <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('posts.create') }}">Ajouter un post</a>
                     @endauth
 
+                    <!-- Bouton "Voir le profil" -->
                     @auth
-                    <a href="{{ route('profile.show', ["user"=>auth()->user()]) }}" class="text-blue-500 hover:underline">Voir le profil</a>
+                        <a class="bg-purple-600 text-white px-4 py-2 rounded-md transition-transform hover:scale-105 focus:outline-none focus:ring focus:border-custom-focus-color duration-300" href="{{ route('profile.show', ["user" => auth()->user()]) }}">Voir le profil</a>
                     @endauth
-
                 </div>
             </nav>
 
@@ -51,5 +50,3 @@
     </div>
 </body>
 </html>
-
-
